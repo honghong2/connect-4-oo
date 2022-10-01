@@ -24,6 +24,13 @@ class Game {
       this.board.push(Array.from({ length: this.width }));
     }
   }
+
+  restartGame() {
+    this.gameOver = false;
+    this.makeBoard();
+    this.makeHtmlBoard();
+  }
+
 /** makeHtmlBoard: make HTML table and row of column tops. */
   makeHtmlBoard() {
     const htmlboard = document.getElementById('board');
@@ -89,7 +96,8 @@ placeInTable(y, x) {
 /** endGame: announce game end */
 
 endGame(msg) {
-  alert(msg);
+  setTimeout(() => alert(msg), 0);
+  // setTimeout ->  puts () => alert(msg) into the callback queue
   const top = document.querySelector("#column-top");
   top.removeEventListener("click", this.handleGameClick);
 }
@@ -171,14 +179,20 @@ class Player {
   }
 }
 
+let game;
+
 document.getElementById('start-game').addEventListener('click', () => {
   let p1 = new Player(document.getElementById('p1-color').value);
   let p2 = new Player(document.getElementById('p2-color').value);
-  new Game(p1, p2);
+  game = new Game(p1, p2);
 });
 
 
 
+
+document.getElementById('restart-game').addEventListener('click', () => {
+  game.restartGame();
+});
 
 
 
